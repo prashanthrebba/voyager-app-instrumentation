@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-api-deployment  # Replace with your deployment name
+spec:
+  replicas: 1  # Number of pods to run
+  selector:
+    matchLabels:
+      app: my-app # Replace with your application name
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-relic-rp  # Replace with your container name
+        image: my-app:v2  # Replace with your image details
+        ports:
+          - containerPort: 6001  # Replace with the port your app exposes
