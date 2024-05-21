@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{146DFC7A-7B4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-instrumentation", "src\App\app-instrumentation.csproj", "{1E4A9AB9-0BAE-4CDD-A382-D4F3B953D238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console.App", "src\Console.App\Console.App.csproj", "{3AB4912E-E10D-47D9-95B7-687783B83A66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,13 +20,8 @@ Global
 		{1E4A9AB9-0BAE-4CDD-A382-D4F3B953D238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E4A9AB9-0BAE-4CDD-A382-D4F3B953D238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E4A9AB9-0BAE-4CDD-A382-D4F3B953D238}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AB4912E-E10D-47D9-95B7-687783B83A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AB4912E-E10D-47D9-95B7-687783B83A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AB4912E-E10D-47D9-95B7-687783B83A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB4912E-E10D-47D9-95B7-687783B83A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1E4A9AB9-0BAE-4CDD-A382-D4F3B953D238} = {146DFC7A-7B48-40F7-A4FB-B00C0024900D}
-		{3AB4912E-E10D-47D9-95B7-687783B83A66} = {146DFC7A-7B48-40F7-A4FB-B00C0024900D}
 	EndGlobalSection
 EndGlobal
