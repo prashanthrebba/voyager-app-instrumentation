@@ -1,4 +1,4 @@
-namespace Voyager.Api;
+namespace Voyager.Api.Views;
 
 public class WeatherForecast
 {
