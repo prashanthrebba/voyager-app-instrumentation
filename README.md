@@ -15,6 +15,8 @@
 - Set up the New Relic Kubernetes monitoring by executing a specific command to integrate New Relic with the local k8s cluster.
   - This command sets up the necessary components and configurations for monitoring the local Kubernetes cluster using the New Relic platform.
 
+================================================================================
+
 ## New Relic Configuration
 
 ### Integrated New Relic to Monitor the k8s Cluster
@@ -40,6 +42,10 @@ helm upgrade --install newrelic-bundle newrelic/nri-bundle \
   --set newrelic-logging.lowDataMode=true
 ```
 
+### Resources
+
+- [kubernetes-integration-install-configure](https://docs.newrelic.com/docs/kubernetes-pixie/kubernetes-integration/installation/kubernetes-integration-install-configure/)
+
 Note: The license key (`52c4fb704d10ecc86d42a8b080d61c13FFFFNRAL`) used in the above command is specific to the New Relic account used for this project. Replace it with your own New Relic license key.
 
 ### Integrated New Relic to Monitor/Observe the `voyager-app` Application
@@ -47,6 +53,8 @@ Note: The license key (`52c4fb704d10ecc86d42a8b080d61c13FFFFNRAL`) used in the a
 - Integrated the OpenTelemetry SDK into the `voyager-app` .NET Core application to enable telemetry data collection and observability.
 - Configured New Relic to receive and process the telemetry data pushed from the OpenTelemetry SDK instrumented in the `voyager-app`.
   - This allows monitoring and observing the `voyager-app` application's performance, metrics, and other telemetry data within the New Relic platform.
+
+================================================================================
 
 ## Deployment on Local Kubernetes Cluster
 
