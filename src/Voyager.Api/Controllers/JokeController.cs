@@ -23,7 +23,7 @@ public class JokeController : ControllerBase
     }
 
     [HttpGet(Name = "GetRandomJoke")]
-    [Route("api/jokes/random")]
+    // [Route("api/jokes/random")]
     public async Task<ActionResult<Joke>> GetRandomJoke()
     {
         try
