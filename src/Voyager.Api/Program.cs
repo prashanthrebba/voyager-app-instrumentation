@@ -18,7 +18,6 @@ builder.Services.AddTelemetry();
 builder.Services.AddScoped<IJokeService, JokeService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
-builder.Services.AddScoped<ICodingResourceService, CodingResourceService>();
 
 
 builder.Host.UseSerilog(OpenTelemetrySerilogLoggerConfiguration.LoggerConfigurator);

@@ -1,6 +1,3 @@
-using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using Voyager.Api.Services;
 using Voyager.Api.Views;
 
@@ -20,10 +17,29 @@ public class JokeService : IJokeService
 
     public async Task<Joke> GetRandomJokeAsync()
     {
-        var response = await _httpClient.GetAsync(endpoint);
-        response.EnsureSuccessStatusCode();
-        var jokes = await response.Content.ReadFromJsonAsync<List<Joke>>() ?? new List<Joke>();
-        return jokes[Random.Shared.Next(jokes.Count)];
+
+        using (_httpClient)
+        {
+            try
+            {
+                _logger.LogInformation("Fetching random joke from API: {Endpoint}", endpoint);
+
+                var response = await _httpClient.GetAsync(endpoint);
+                response.EnsureSuccessStatusCode();
+                var jokes = await response.Content.ReadFromJsonAsync<List<Joke>>() ?? new List<Joke>();
+                return jokes[Random.Shared.Next(jokes.Count)];
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError("Error getting games from API: {Message}", ex.Message);
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Unexpected error getting games: {Message}", ex.Message);
+                throw;
+            }
+        }
     }
 }
 

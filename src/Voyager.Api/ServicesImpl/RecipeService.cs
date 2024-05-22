@@ -1,23 +1,48 @@
-using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using Voyager.Api.Services;
+using Voyager.Api.Views;
+
 
 namespace Voyager.Api.ServicesImpl;
 
 public class RecipeService : IRecipeService
 {
+    private readonly HttpClient _httpClient;
     private readonly ILogger<RecipeService> _logger;
+    private const string endpoint = "https://api.sampleapis.com/recipes/recipes";
 
-    public RecipeService(
-        ILogger<RecipeService> logger
-    )
+    public RecipeService(ILogger<RecipeService> logger)
     {
         _logger = logger;
+        _httpClient = new HttpClient();
     }
-    public Task<IEnumerable<Guid>> GetRecipeAsync()
+
+    public async Task<Recipe> GetRandomRecipeAsync()
     {
-        throw new NotImplementedException();
+
+        using (_httpClient)
+        {
+            try
+            {
+                _logger.LogInformation("Fetching random recipe from API: {Endpoint}", endpoint);
+
+                var response = await _httpClient.GetAsync(endpoint);
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>() ?? new List<Recipe>();
+                return recipes[Random.Shared.Next(recipes.Count)];
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError("Error getting recipes from API: {Message}", ex.Message);
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Unexpected error getting recipes: {Message}", ex.Message);
+                throw;
+            }
+        }
     }
 }
 

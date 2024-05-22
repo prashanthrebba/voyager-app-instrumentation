@@ -23,7 +23,7 @@ public class JokeController : ControllerBase
     }
 
     [HttpGet(Name = "GetRandomJoke")]
-    public async Task<ActionResult<Joke>> GetRandomJoke()
+    public async Task<ActionResult<Joke>> GetRandomJokeAsync()
     {
         try
         {

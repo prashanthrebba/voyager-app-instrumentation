@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Voyager.Api.Services;
 using Voyager.Api.Views;
 
 namespace Voyager.Api.Controllers;
@@ -7,27 +8,31 @@ namespace Voyager.Api.Controllers;
 [Route("api/v1/[controller]")]
 public class GameController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     private readonly ILogger<GameController> _logger;
+    private readonly IGameService _gameService;
 
-    public GameController(ILogger<GameController> logger)
+    public GameController(IGameService gameService, ILogger<GameController> logger)
     {
         _logger = logger;
+        _gameService = gameService;
     }
 
-    [HttpGet(Name = "GetWedathedrForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet(Name = "GetRandomGame")]
+    public async Task<ActionResult<Game>> GetRandomGameAsync()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        try
         {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            var startTime = DateTime.Now;
+            _logger.LogInformation("Fetching random game at timeStamp : {@TimeStamp}", startTime);
+            var game = await _gameService.GetRandomGameAsync();
+            var endTime = DateTime.Now;
+            _logger.LogInformation("Successfully fetched the random game at timeStamp : {@TimeStamp} and TimeElasped:{@TimeElapsed}", endTime, endTime - startTime);
+            return Ok(game);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while fetching random game");
+            return StatusCode(500, ex.Message);
+        }
     }
 }

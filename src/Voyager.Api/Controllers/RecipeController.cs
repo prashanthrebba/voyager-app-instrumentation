@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Voyager.Api.Services;
 using Voyager.Api.Views;
 
 namespace Voyager.Api.Controllers;
@@ -7,27 +8,31 @@ namespace Voyager.Api.Controllers;
 [Route("api/v1/[controller]")]
 public class RecipeController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     private readonly ILogger<RecipeController> _logger;
+    private readonly IRecipeService _recipeService;
 
-    public RecipeController(ILogger<RecipeController> logger)
+    public RecipeController(IRecipeService recipeService, ILogger<RecipeController> logger)
     {
         _logger = logger;
+        _recipeService = recipeService;
     }
 
-    [HttpGet(Name = "GetRecipe")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet(Name = "GetRandomRecipe")]
+    public async Task<ActionResult<Joke>> GetRandomRecipeAsync()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        try
         {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            var startTime = DateTime.Now;
+            _logger.LogInformation("Fetching random recipe at timeStamp : {@TimeStamp}", startTime);
+            var recipe = await _recipeService.GetRandomRecipeAsync();
+            var endTime = DateTime.Now;
+            _logger.LogInformation("Successfully fetched the random recipe at timeStamp : {@TimeStamp} and TimeElasped:{@TimeElapsed}", endTime, endTime - startTime);
+            return Ok(recipe);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while fetching random recipe");
+            return StatusCode(500, ex.Message);
+        }
     }
 }
