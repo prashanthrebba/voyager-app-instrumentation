@@ -2,24 +2,37 @@
 
 ## Description
 
-1. Created a sample .NET Core application called `voyager-app` for demonstration purposes.
-2. Wrote a Dockerfile to build and containerize the `voyager-app` application.
-3. Set up a local Kubernetes (k8s) cluster on the development machine for testing and deployment.
-4. Deployed the containerized `voyager-app` to the local k8s cluster.
+Steps involved in setting up and deploying the `voyager-app` application to a local Kubernetes cluster, along with integrating it with New Relic for monitoring and observability.
 
-## k8s Setup on Local Machine
+# Voyager Application Setup and Deployment
 
-- Followed the official Minikube documentation at [https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/) to set up a local Kubernetes cluster using Minikube.
-- On macOS, used the command `brew install minikube` to install Minikube, a tool that runs a single-node Kubernetes cluster inside a Virtual Machine (VM) on the local machine.
-- Executed `minikube start` to launch the local Kubernetes cluster.
-- Set up the New Relic Kubernetes monitoring by executing a specific command to integrate New Relic with the local k8s cluster.
-  - This command sets up the necessary components and configurations for monitoring the local Kubernetes cluster using the New Relic platform.
+## 1. Application Overview
 
-================================================================================
+- The `voyager-app` is a sample .NET Core application created for demonstration purposes.
+- It exposes the following endpoints:
+  - `GET /api/v1/WeatherForecast`
+  - `GET /api/v1/Game`
+  - `GET /api/v1/Joke`
+  - `GET /api/v1/Recipe`
 
-## New Relic Configuration
+## 2. Containerization with Docker
 
-### Integrated New Relic to Monitor the k8s Cluster
+- A Dockerfile was created to build and containerize the `voyager-app` application.
+- The Dockerfile specifies the instructions for creating a Docker image for the application.
+
+## 3. Local Kubernetes (k8s) Cluster Setup
+
+- A local Kubernetes cluster was set up on the development machine using Minikube for testing and deployment purposes.
+- Minikube is a tool that runs a single-node Kubernetes cluster inside a Virtual Machine (VM) on the local machine.
+- On macOS, Minikube was installed using the command `brew install minikube`.
+- The local Kubernetes cluster was launched by executing `minikube start`.
+
+## 4. New Relic Integration
+
+### 4.1. Monitoring the Local Kubernetes Cluster
+
+- New Relic was integrated with the local Kubernetes cluster to enable monitoring and observability.
+- The following command was executed to set up the necessary components and configurations for monitoring the local cluster using the New Relic platform:
 
 ```bash
 KSM_IMAGE_VERSION="v2.10.0" && \
@@ -42,27 +55,41 @@ helm upgrade --install newrelic-bundle newrelic/nri-bundle \
   --set newrelic-logging.lowDataMode=true
 ```
 
-### Resources
+**Note**: The license key (`52c4fb704d10ecc86d42a8b080d61c13FFFFNRAL`) used in the command is specific to the project's New Relic account. Replace it with your own New Relic license key.
 
-- [kubernetes-integration-install-configure](https://docs.newrelic.com/docs/kubernetes-pixie/kubernetes-integration/installation/kubernetes-integration-install-configure/)
+### 4.2. Monitoring the `voyager-app` Application
 
-Note: The license key (`52c4fb704d10ecc86d42a8b080d61c13FFFFNRAL`) used in the above command is specific to the New Relic account used for this project. Replace it with your own New Relic license key.
+- The OpenTelemetry SDK was integrated into the `voyager-app` .NET Core application to enable telemetry data collection and observability.
+- New Relic was configured to receive and process the telemetry data pushed from the OpenTelemetry SDK instrumented in the `voyager-app`.
+- This setup allows monitoring and observing the `voyager-app` application's performance, metrics, and other telemetry data within the New Relic platform.
 
-### Integrated New Relic to Monitor/Observe the `voyager-app` Application
+## 5. Deployment on Local Kubernetes Cluster
 
-- Integrated the OpenTelemetry SDK into the `voyager-app` .NET Core application to enable telemetry data collection and observability.
-- Configured New Relic to receive and process the telemetry data pushed from the OpenTelemetry SDK instrumented in the `voyager-app`.
-  - This allows monitoring and observing the `voyager-app` application's performance, metrics, and other telemetry data within the New Relic platform.
-
-================================================================================
-
-## Deployment on Local Kubernetes Cluster
-
-- Created a `deploy.sh` script file to automate the deployment process of the `voyager-app` to the local Kubernetes cluster.
+- A `deploy.sh` script file was created to automate the deployment process of the `voyager-app` to the local Kubernetes cluster.
 - The `deploy.sh` script performs the following steps:
   1. Builds the Dockerfile to create a Docker image for the `voyager-app` with the tag set as the latest commit ID from the version control system (e.g., Git).
   2. Pushes the Docker image to a container registry (in this case, Docker Hub) for easy access and distribution.
   3. Deploys the `voyager-app` to the local Kubernetes cluster using Helm, a package manager for Kubernetes, with the image name and tag created using the latest commit ID.
-- After successful deployment, the `voyager-app` is accessible on `http://localhost:5000/WeatherForecast` (assuming the application exposes an endpoint at `/WeatherForecast`).
+- After successful deployment, the `voyager-app` is accessible on `http://localhost:5000/api/v1/WeatherForecast`.
 
-By following these steps, the `voyager-app` is containerized, integrated with OpenTelemetry for observability, and deployed to a local Kubernetes cluster for testing and development purposes. Additionally, the New Relic platform is configured to monitor and observe the Kubernetes cluster and the `voyager-app` application running within it.
+## 6. Accessing the Application
+
+Once the deployment is completed, the `voyager-app` application can be accessed locally at the following URLs:
+
+- `http://localhost:5000/api/v1/WeatherForecast`
+- `http://localhost:5000/api/v1/Game`
+- `http://localhost:5000/api/v1/Joke`
+- `http://localhost:5000/api/v1/Recipe`
+
+These endpoints correspond to the various functionalities provided by the `voyager-app`.
+
+## 7. Monitoring and Observability with New Relic
+
+With the integration of New Relic, you can monitor and observe the following:
+
+- The local Kubernetes cluster itself, including its components and resources.
+- The `voyager-app` application running within the local Kubernetes cluster, including its performance, metrics, and other telemetry data.
+
+By leveraging the New Relic platform, we can gain insights into the health, performance, and overall behavior of both the Kubernetes cluster and the deployed application, enabling effective monitoring and troubleshooting.
+
+This setup provides a development environment for testing and experimenting with containerized applications deployed to a local Kubernetes cluster, while also incorporating monitoring and observability capabilities through New Relic integration.

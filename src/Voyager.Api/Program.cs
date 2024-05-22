@@ -20,7 +20,7 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 
 
-builder.Host.UseSerilog(OpenTelemetrySerilogLoggerConfiguration.LoggerConfigurator);
+// builder.Host.UseSerilog(OpenTelemetrySerilogLoggerConfiguration.LoggerConfigurator);
 
 var app = builder.Build();
 
