@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -14,28 +15,12 @@ public static class VoyagerOpenTelemetryExtension
         var otlpEndpoint = "https://otlp.nr-data.net:4317";
         var appName = "Voyager.Api";
         var appNamespace = "Voyager";
-
-
-        if (string.IsNullOrEmpty(appName))
-        {
-            throw new InvalidOperationException("AppName is not configured");
-        }
-
-        if (string.IsNullOrEmpty(appNamespace))
-        {
-            throw new InvalidOperationException("Telemetry:AppNamespace is not configured");
-        }
-
         Telemetry.Init(appName);
-        if (string.IsNullOrEmpty(otlpEndpoint))
-        {
-            Console.WriteLine("Warning: Telemetry:Endpoint is not configured");
-            return services;
-        }
         var resourceBuilder = ResourceBuilder.CreateDefault()
                                             .AddService(appName)
                                             .AddAttributes(new Dictionary<string, object>() { { "service.namespace", appNamespace } });
         services.AddOpenTelemetry()
+            .UseOtlpExporter()
             .WithTracing(tracerProviderBuilder => tracerProviderBuilder
                     .SetResourceBuilder(resourceBuilder)
                     .AddHttpClientInstrumentation(options =>
@@ -58,6 +43,9 @@ public static class VoyagerOpenTelemetryExtension
 
         services.AddLogging(builder => builder.AddOpenTelemetry(options =>
         {
+            options.IncludeFormattedMessage = true;
+            options.ParseStateValues = true;
+            options.IncludeScopes = true;
             options.AddOtlpExporter(options => options.Endpoint = new Uri(otlpEndpoint));
             options.SetResourceBuilder(resourceBuilder);
         }));
