@@ -25,7 +25,6 @@ public class Recipe
     public string NutritionalScoreGeneric { get; set; }
     public string Fat { get; set; }
     public string Cholesterol { get; set; }
-    public string Sodium { get; set; }
     public string Sugar { get; set; }
     public string Carbohydrate { get; set; }
     public string Fiber { get; set; }
