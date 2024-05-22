@@ -20,7 +20,6 @@ public static class VoyagerOpenTelemetryExtension
                                             .AddService(appName)
                                             .AddAttributes(new Dictionary<string, object>() { { "service.namespace", appNamespace } });
         services.AddOpenTelemetry()
-            .UseOtlpExporter()
             .WithTracing(tracerProviderBuilder => tracerProviderBuilder
                     .SetResourceBuilder(resourceBuilder)
                     .AddHttpClientInstrumentation(options =>
