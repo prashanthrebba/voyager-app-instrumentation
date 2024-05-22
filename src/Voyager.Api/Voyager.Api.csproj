@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>app_instrumentation</RootNamespace>
+    <RootNamespace>Voyager.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,10 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.8.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
     <PackageRefedotnrence Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.5.1-beta.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.5.1" />
+
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
        <!-- <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.5.1" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />

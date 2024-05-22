@@ -21,7 +21,7 @@ echo "Latest image tag retrieved: $LATEST_IMAGE_TAG"
 echo ""
 
 echo "Building Docker image..."
-docker buildx build -f src/App/Dockerfile -t "$IMAGE_NAME:$LATEST_IMAGE_TAG" .
+docker buildx build -f src/Voyager.Api/Dockerfile -t "$IMAGE_NAME:$LATEST_IMAGE_TAG" .
 echo "Docker image build completed."
 echo ""
 

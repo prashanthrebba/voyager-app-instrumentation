@@ -1,4 +1,4 @@
-namespace app_instrumentation;
+namespace Voyager.Api;
 
 public class WeatherForecast
 {

@@ -3,7 +3,7 @@ using System.Diagnostics.Metrics;
 using Microsoft.AspNetCore.Mvc;
 using OpenTelemetry.Trace;
 
-namespace app_instrumentation.Controllers;
+namespace Voyager.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -13,8 +13,8 @@ public class FibonacciController : ControllerBase
     private const string AttributeNameResult = "fibonacci.result";
     private const string AttributeNameValid = "fibonacci.valid.n";
 
-    private static ActivitySource activitySource = new ActivitySource(nameof(app_instrumentation));
-    private static Meter meter = new Meter(nameof(app_instrumentation));
+    private static ActivitySource activitySource = new ActivitySource(nameof(Voyager.Api));
+    private static Meter meter = new Meter(nameof(Voyager.Api));
     private static Counter<long> fibonacciInvocations = meter.CreateCounter<long>(
         name: "fibonacci.invocations",
         unit: null,

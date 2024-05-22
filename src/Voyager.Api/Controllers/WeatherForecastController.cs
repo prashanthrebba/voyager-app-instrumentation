@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace app_instrumentation.Controllers;
+namespace Voyager.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
