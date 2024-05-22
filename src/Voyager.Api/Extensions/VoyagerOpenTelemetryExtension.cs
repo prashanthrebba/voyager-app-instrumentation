@@ -9,7 +9,7 @@ namespace Voyager.Api.Extensions;
 
 public static class VoyagerOpenTelemetryExtension
 {
-    public static IServiceCollection AddOpenTelemetry(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddTelemetry(this IServiceCollection services)
     {
         var otlpEndpoint = "https://otlp.nr-data.net:4317";
         var appName = "Voyager.Api";

@@ -1,8 +1,5 @@
 // using System.Diagnostics.Metrics;
-using OpenTelemetry;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
+using Voyager.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddOpenTelemetry();
+builder.Services.AddTelemetry();
 // Configure the OpenTelemetry SDK for traces and metrics
 // builder.Services.AddOpenTelemetry()
 //     .UseOtlpExporter()
