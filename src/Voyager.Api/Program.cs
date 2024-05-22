@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddOpenTelemetry();
 // Configure the OpenTelemetry SDK for traces and metrics
 // builder.Services.AddOpenTelemetry()
 //     .UseOtlpExporter()
