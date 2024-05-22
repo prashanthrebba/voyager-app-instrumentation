@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -7,8 +6,8 @@ namespace Voyager.Api.Utils;
 [ExcludeFromCodeCoverage]
 public static class Telemetry
 {
-    public static ActivitySource AppActivitySource { get; private set; }
-    public static string _appMeter;//need to make this private(temp fix)
+    public static ActivitySource? AppActivitySource { get; private set; }
+    public static string? _appMeter;
     public static string AppMeter
     {
         get
