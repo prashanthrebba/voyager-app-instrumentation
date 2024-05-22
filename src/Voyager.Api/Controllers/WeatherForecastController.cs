@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Voyager.Api.Views;
 
@@ -22,6 +23,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
+        var activity = Activity.Current;
         _logger.LogInformation("Request Weather Forecast");
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {

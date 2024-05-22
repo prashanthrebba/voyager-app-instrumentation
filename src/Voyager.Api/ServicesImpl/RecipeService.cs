@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Voyager.Api.Extensions;
 using Voyager.Api.Services;
 using Voyager.Api.Views;
 
@@ -18,6 +20,7 @@ public class RecipeService : IRecipeService
 
     public async Task<Recipe> GetRandomRecipeAsync()
     {
+        var activity = Activity.Current;
 
         using (_httpClient)
         {
@@ -35,11 +38,13 @@ public class RecipeService : IRecipeService
             catch (HttpRequestException ex)
             {
                 _logger.LogError("Error getting recipes from API: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
                 throw ex;
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error getting recipes: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
                 throw;
             }
         }

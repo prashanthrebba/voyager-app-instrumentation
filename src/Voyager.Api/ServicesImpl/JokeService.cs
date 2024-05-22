@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Voyager.Api.Extensions;
 using Voyager.Api.Services;
 using Voyager.Api.Views;
 
@@ -17,7 +19,7 @@ public class JokeService : IJokeService
 
     public async Task<Joke> GetRandomJokeAsync()
     {
-
+        var activity = Activity.Current;
         using (_httpClient)
         {
             try
@@ -32,11 +34,13 @@ public class JokeService : IJokeService
             catch (HttpRequestException ex)
             {
                 _logger.LogError("Error getting games from API: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
                 throw ex;
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error getting games: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
                 throw;
             }
         }

@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Newtonsoft.Json;
+using Voyager.Api.Extensions;
 using Voyager.Api.Services;
 using Voyager.Api.Views;
 
@@ -20,6 +22,7 @@ public class GameService : IGameService
 
     public async Task<Game> GetRandomGameAsync()
     {
+        var activity = Activity.Current;
         using (_httpClient)
         {
             try
@@ -38,11 +41,14 @@ public class GameService : IGameService
             catch (HttpRequestException ex)
             {
                 _logger.LogError("Error getting games from API: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
+
                 throw ex;
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error getting games: {Message}", ex.Message);
+                activity?.RecordErrorException(ex);
                 throw;
             }
         }
