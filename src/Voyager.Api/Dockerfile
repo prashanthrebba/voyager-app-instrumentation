@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
 WORKDIR /app
 EXPOSE 5000
 
-ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net:4317
+# ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net:4317
 ENV OTEL_EXPORTER_OTLP_HEADERS=api-key=52c4fb704d10ecc86d42a8b080d61c13FFFFNRAL
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
