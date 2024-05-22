@@ -261,3 +261,5 @@ deploy-changes/
 helm_chart/config
 coverage/
 tests/coverage.*.xml
+
+**/*.DS_Store

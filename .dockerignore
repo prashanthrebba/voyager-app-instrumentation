@@ -22,7 +22,6 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 **/appsettings*
-**/sharedsettings*
 **/launchSettings*
 LICENSE
 README.md

@@ -4,7 +4,7 @@ using Voyager.Api.Views;
 namespace Voyager.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 public class RecipeController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -19,7 +19,7 @@ public class RecipeController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetWeatherssForecast")]
+    [HttpGet(Name = "GetRecipe")]
     public IEnumerable<WeatherForecast> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast

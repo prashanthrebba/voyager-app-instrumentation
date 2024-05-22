@@ -5,7 +5,7 @@ using Voyager.Api.Views;
 namespace Voyager.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 public class JokeController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -23,16 +23,20 @@ public class JokeController : ControllerBase
     }
 
     [HttpGet(Name = "GetRandomJoke")]
-    // [Route("api/jokes/random")]
     public async Task<ActionResult<Joke>> GetRandomJoke()
     {
         try
         {
+            var startTime = DateTime.Now;
+            _logger.LogInformation("Fetching random joke at timeStamp : {@TimeStamp}", startTime);
             var joke = await _jokeService.GetRandomJokeAsync();
+            var endTime = DateTime.Now;
+            _logger.LogInformation("Successfully fetched the random joke at timeStamp : {@TimeStamp} and TimeElasped:{@TimeElapsed}", endTime, endTime - startTime);
             return Ok(joke);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while fetching random joke");
             return StatusCode(500, ex.Message);
         }
     }

@@ -1,4 +1,5 @@
 // using System.Diagnostics.Metrics;
+using System.Diagnostics;
 using Serilog;
 using Voyager.Api.Extensions;
 using Voyager.Api.Services;
@@ -7,7 +8,7 @@ using Voyager.Api.ServicesImpl;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

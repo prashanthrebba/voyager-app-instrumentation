@@ -7,7 +7,7 @@ NAMESPACE="voyager-app"
 LATEST_IMAGE_TAG=$(git rev-parse HEAD~0^{commit})
 SERVICE_NAME="voyager-api"
 
-HOST_PORT=5001
+HOST_PORT=5000
 CONTAINER_PORT=80
 
 
