@@ -15,7 +15,6 @@ public class Recipe
     public int CookTime { get; set; }
     public int TotalTime { get; set; }
     public int Servings { get; set; }
-    public string Yield { get; set; }
     public string Ingredients { get; set; }
     public string Directions { get; set; }
     public string Tags { get; set; }
