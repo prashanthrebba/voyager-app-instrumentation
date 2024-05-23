@@ -11,7 +11,7 @@ HOST_PORT=5000
 CONTAINER_PORT=80
 
 
-IMAGE_NAME="$DOCKER_USERNAME/demo-app-relic"
+IMAGE_NAME="$DOCKER_USERNAME/voyager-app-instrumentation"
 
 echo "Logging in to Docker Hub..."
 docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD

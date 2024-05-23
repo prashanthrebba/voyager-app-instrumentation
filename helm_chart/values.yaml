@@ -15,7 +15,7 @@ services:
       type: ClusterIP
       port: 80
     image:
-      repository: rebbaprashanth/demo-app-relic
+      repository: rebbaprashanth/voyager-app-instrumentation
     resources:
       limits:
         memory: 900Mi
