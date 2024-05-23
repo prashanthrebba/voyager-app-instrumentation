@@ -12,7 +12,6 @@ public static class VoyagerOpenTelemetryExtension
 {
     public static IServiceCollection AddTelemetry(this IServiceCollection services)
     {
-        // var otlpEndpoint = "https://otlp.nr-data.net:4317";
         var appName = "Voyager.Api";
         var appNamespace = "Voyager";
         Telemetry.Init(appName);
@@ -31,17 +30,12 @@ public static class VoyagerOpenTelemetryExtension
                     })
                     .AddSource(appName)
                     .SetErrorStatusOnException()
-            // .AddOtlpExporter(appName, options =>
-            // {
-            //     options.Endpoint = new Uri(otlpEndpoint);
-            // })
             )
             .WithMetrics(builder => builder
                 .SetResourceBuilder(resourceBuilder)
                 .AddProcessInstrumentation()
                 .AddRuntimeInstrumentation()
                 .AddAspNetCoreInstrumentation()
-                // .AddOtlpExporter(options => options.Endpoint = new Uri(otlpEndpoint))
                 .AddMeter(Telemetry.AppMeter)
                 .SetResourceBuilder(resourceBuilder));
 
@@ -53,7 +47,6 @@ public static class VoyagerOpenTelemetryExtension
             options.IncludeFormattedMessage = true;
             options.ParseStateValues = true;
             options.IncludeScopes = true;
-            // options.AddOtlpExporter(options => options.Endpoint = new Uri(otlpEndpoint));
             options.SetResourceBuilder(resourceBuilder);
         });
         });

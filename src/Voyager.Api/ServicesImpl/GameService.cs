@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
+using OpenTelemetry.Trace;
 using Voyager.Api.Extensions;
 using Voyager.Api.Services;
+using Voyager.Api.Utils;
 using Voyager.Api.Views;
 
 namespace Voyager.Api.ServicesImpl;
@@ -22,7 +24,9 @@ public class GameService : IGameService
 
     public async Task<Game> GetRandomGameAsync()
     {
-        var activity = Activity.Current;
+        var previousActivity = Activity.Current;
+        Activity.Current = null;
+        using var activity = Telemetry.AppActivitySource?.StartActivity("Api.Request.Get.Random.Game");
         using (_httpClient)
         {
             try
@@ -35,19 +39,22 @@ public class GameService : IGameService
 
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var games = JsonConvert.DeserializeObject<List<Game>>(responseBody) ?? new List<Game>();
-                return games[Random.Shared.Next(games.Count)];
-
+                var game = games[Random.Shared.Next(games.Count)];
+                activity?.SetTag("game.result.info", game);
+                Activity.Current = previousActivity;
+                return game;
             }
             catch (HttpRequestException ex)
             {
                 _logger.LogError("Error getting games from API: {Message}", ex.Message);
+                activity?.SetStatus(Status.Error.WithDescription(ex.Message));
                 activity?.RecordErrorException(ex);
-
                 throw ex;
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error getting games: {Message}", ex.Message);
+                activity?.SetStatus(Status.Error.WithDescription(ex.Message));
                 activity?.RecordErrorException(ex);
                 throw;
             }

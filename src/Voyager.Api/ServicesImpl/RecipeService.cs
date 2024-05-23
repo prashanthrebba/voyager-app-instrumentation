@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using OpenTelemetry.Trace;
 using Voyager.Api.Extensions;
 using Voyager.Api.Services;
+using Voyager.Api.Utils;
 using Voyager.Api.Views;
 
 
@@ -20,7 +22,9 @@ public class RecipeService : IRecipeService
 
     public async Task<Recipe> GetRandomRecipeAsync()
     {
-        var activity = Activity.Current;
+        var previousActivity = Activity.Current;
+        Activity.Current = null;
+        using var activity = Telemetry.AppActivitySource?.StartActivity("Api.Request.Get.Random.Recipe");
 
         using (_httpClient)
         {
@@ -33,17 +37,22 @@ public class RecipeService : IRecipeService
                 var responseBody = await response.Content.ReadAsStringAsync();
 
                 var recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>() ?? new List<Recipe>();
-                return recipes[Random.Shared.Next(recipes.Count)];
+                var recipe = recipes[Random.Shared.Next(recipes.Count)];
+                activity?.SetTag("recipe.result.info", recipe);
+                Activity.Current = previousActivity;
+                return recipe;
             }
             catch (HttpRequestException ex)
             {
                 _logger.LogError("Error getting recipes from API: {Message}", ex.Message);
+                activity?.SetStatus(Status.Error.WithDescription(ex.Message));
                 activity?.RecordErrorException(ex);
                 throw ex;
             }
             catch (Exception ex)
             {
                 _logger.LogError("Unexpected error getting recipes: {Message}", ex.Message);
+                activity?.SetStatus(Status.Error.WithDescription(ex.Message));
                 activity?.RecordErrorException(ex);
                 throw;
             }
