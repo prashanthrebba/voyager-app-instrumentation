@@ -65,10 +65,10 @@ helm upgrade --install newrelic-bundle newrelic/nri-bundle \
 
 ## 5. Deployment on Local Kubernetes Cluster
 
-- A `deploy.sh` script file was created to automate the deployment process of the `voyager-app` to the local Kubernetes cluster.
+- A `deploy.sh` script file was created to automate the deployment process of the `voyager-app` to the local Kubernetes cluster [as mentioned here](deploy.sh)
 - The `deploy.sh` script performs the following steps:
   1. Builds the Dockerfile to create a Docker image for the `voyager-app` with the tag set as the latest commit ID from the version control system (e.g., Git).
-  2. Pushes the Docker image to a container registry (in this case, Docker Hub) for easy access and distribution.
+  2. Pushes the Docker image to a container registry (in this case, Docker Hub) for easy access and distribution [as mentioned here](src/Voyager.Api/Dockerfile)
   3. Deploys the `voyager-app` to the local Kubernetes cluster using Helm, a package manager for Kubernetes, with the image name and tag created using the latest commit ID.
 - After successful deployment, the `voyager-app` is accessible on `http://localhost:5000/api/v1/WeatherForecast`.
 
